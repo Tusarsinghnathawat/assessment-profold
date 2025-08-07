@@ -8,9 +8,15 @@ const { createConnection } = require('@app-core/mongoose');
 
 const canLogEndpointInformation = process.env.CAN_LOG_ENDPOINT_INFORMATION;
 
-createConnection({
-  uri: process.env.MONGO_URI,
-});
+const DB_URI = process.env.MONGO_URI || process.env.MONGODB_URI;
+if (DB_URI) {
+  createConnection({
+    uri: DB_URI,
+  });
+} else {
+  // eslint-disable-next-line no-console
+  console.warn('No MONGO_URI/MONGODB_URI set. Skipping DB connection.');
+}
 
 const server = createServer({
   port: process.env.PORT,
@@ -18,7 +24,7 @@ const server = createServer({
   enableCors: true,
 });
 
-const ENDPOINT_CONFIGS = [];
+const ENDPOINT_CONFIGS = [{ path: './endpoints/reqline/' }];
 
 function logEndpointMetaData(endpointConfigs) {
   const endpointData = [];

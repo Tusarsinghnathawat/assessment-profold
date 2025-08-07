@@ -9,6 +9,7 @@
     "url": "profold-be-api-1"
   },
   "scripts": {
+    "start": "node app.js",
     "test": "set USE_MOCK_MODEL=1 && mocha --recursive --require dotenv/config",
     "prepare": "husky",
     "commitlint": "commitlint --edit",
